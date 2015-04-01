@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
 
-  config.vm.hostname = 'create-berkshelf'
+  config.vm.hostname = 'base-server'
 
   # Set the version of chef to install using the vagrant-omnibus plugin
   # NOTE: You will need to install the vagrant-omnibus plugin:
@@ -25,14 +25,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   # If this value is a shorthand to a box in Vagrant Cloud then
   # config.vm.box_url doesn't need to be specified.
-  config.vm.box = 'chef/ubuntu-14.04'
-
+  #config.vm.box = 'chef/ubuntu-14.04'
+  config.vm.box = 'centos-6.6'
 
   # Assign this VM to a host-only network IP, allowing you to access it
   # via the IP. Host-only networks can talk to the host machine as well as
   # any other machines on the same network, but cannot be accessed (through this
   # network interface) by any external networks.
-  config.vm.network :private_network, type: 'dhcp'
+  #config.vm.network :private_network, type: 'dhcp'
+  config.vm.network :private_network, ip: '192.168.5.5'
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -48,13 +49,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+  config.vm.provider :virtualbox do |vb|
   #   # Don't boot with headless mode
-  #   vb.gui = true
+    vb.gui = true
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+  end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
@@ -84,7 +85,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
 
     chef.run_list = [
-      'recipe[create::default]'
+      'recipe[base-server::default]'
     ]
   end
 end
