@@ -1,0 +1,5 @@
+###############################################################
+Welcome to <%= node['hostname'] %>
+This system is private. Unauthorised access will be punishable
+to the full extent of the law
+###############################################################
