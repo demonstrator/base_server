@@ -10,12 +10,25 @@
 if node[:platform_family] == 'rhel'
 
   include_recipe "yum-epel"
+  include_recipe "yum"
 
   execute "update-grub-conf-1" do
     command "sed --in-place 's|rhgb quiet||g' /boot/grub/grub.conf"
   end
 
   package 'iptables-ipv6' do
+  action :remove
+  end
+
+  package 'NetworkManager' do
+  action :remove
+  end
+
+  package 'NetworkManager-glib' do
+  action :remove
+  end
+
+  package 'b43-openfwwf' do
   action :remove
   end
 
@@ -76,6 +89,17 @@ if node[:platform_family] == 'rhel'
   node.default['yum']['epel']['baseurl'] = "baseurl=http://10.197.10.244/cobbler/repo_mirror/EPEL6-x86"
   node.default['yum']['epel']['sslverify'] = false
 
+  cookbook_file "/etc/aliases" do
+    source "aliases"
+    mode "0644"
+    owner "root"
+    group "root"
+  end
 
+  template "/etc/motd" do
+    source "motd"
+    mode "0644"
+    owner "root"
+    group "root"
+  end
 end
-
