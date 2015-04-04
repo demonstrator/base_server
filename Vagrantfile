@@ -85,7 +85,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
 
     chef.run_list = [
-      'recipe[base-server::default]'
+      'recipe[base-server::default]',
+      'recipe[base-server::packages]',
+      'recipe[base-server::update]'
     ]
   end
 end
